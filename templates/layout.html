@@ -1,0 +1,21 @@
+<!doctype html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    {% block head %}
+    <link href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.2.0/css/bootstrap.css" rel="stylesheet">
+    <!-- <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"> -->
+    <title>{% block title %}{% endblock %}</title>
+    {% endblock %}
+  </head>
+  <body>
+    <div class="container-fluid" id="app">{% block content %}{% endblock %}</div>
+    <div id="footer">
+      {% block footer %}
+
+      {% endblock %}
+    </div>
+    <script src="{{ url_for('static', filename='vue@3.2.38.js') }}"></script>
+    {% block vue %}{% endblock %}
+  </body>
+</html>

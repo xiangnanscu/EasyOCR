@@ -1,0 +1,53 @@
+{% extends "layout.html" %}
+{% block title %}学校列表{% endblock %}
+{% block head %}
+  {{ super() }}
+  <style type="text/css">
+    .important { color: #336699; }
+  </style>
+{% endblock %}
+{% block content %}
+<div class="row">
+  <h1> {{cnt_n}}/{{cnt_y}} - {{percent}}</h1>
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <td>序号</td>
+        <td>学校</td>
+        <td>数量</td>
+        <td>链接</td>
+      </tr>
+    </thead>
+    <tbody>
+    {% for k,v in logs.items() %}
+        <tr>
+          <td>{{loop.index0+1}}</td>
+          <td>{{k}}</td>
+          <td>{{v[1]}}</td>
+          <td><a href="{{v[0]}}">{{v[0]}}</a></td>
+        </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}
+
+{% block vue %}
+<script>
+  const { createApp } = Vue
+
+  createApp({
+    delimiters: ["[[", "]]"],
+    data() {
+      return {
+        message: 'Hello Vue!'
+      }
+    },
+    methods: {
+      foo() {
+        console.log("foo")
+      }
+    }
+  }).mount('#app')
+</script>
+{% endblock %}

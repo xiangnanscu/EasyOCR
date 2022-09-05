@@ -1,0 +1,77 @@
+{% extends "layout.html" %}
+{% block title %}缴费凭证列表{% endblock %}
+{% block head %}
+  {{ super() }}
+  <style type="text/css">
+    .important { color: #336699; }
+  </style>
+{% endblock %}
+{% block content %}
+<div class="row">
+  <div class="col-sm-3">
+  <div>
+    <h2>缴费及上传凭证指南</h2>
+    <p><a href="http://lzwlkj.oss-cn-shenzhen.aliyuncs.com/yewuyj/NzQzsyzowKr0XVjMiGwBh.docx">红云教育缴费详细操作步骤（图文）.docx</a></p>
+    <h2>正确的缴费凭证示例</h2>
+    <p>请各位老师提醒家长：要的是截图，不是拍照片，也不用在截图上P上任何姓名，因特殊情况老师代缴的，老师应负责在红云APP为每个学生提交缴费信息</p>
+    <p><img src="http://lzwlkj.oss-cn-shenzhen.aliyuncs.com/avatar/IkzkDi5Nz_3LHUNtqn7mw.jpeg"></p>
+  </div>
+  </div>
+  <div class="col-sm-9">
+  <h1>不规范的缴费凭证列表</h1>
+  <p style="color:red">这些学生需要重新在红云APP上传缴费凭证，请各位老师及时处理，如果没有按照指南操作造成的无法对账，由各学校负责！</p>
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <td>序号</td>
+        <td>学校</td>
+        <td>班级</td>
+        <td>姓名</td>
+        <td>身份证号</td>
+        <td>手机号</td>
+        <!-- <td>解析金额</td>
+        <td>输入金额</td> -->
+        <td>不规范的凭证截图</td>
+        <td>解析文本</td>
+      </tr>
+    </thead>
+    <tbody>
+    {% for log in logs %}
+        <tr>
+          <td>{{loop.index0+1}}</td>
+          <td>{{log.deptName}}</td>
+          <td>{{log.className}}</td>
+          <td>{{log.studentName}}</td>
+          <td>{{log.carid[:3]}}************{{log.carid[17:]}}</td>
+          <td>{{log.mobile}}</td>
+          <!-- <td>{{log.prices}}</td>
+          <td>{{log.usrPrices}}</td> -->
+          <td><img src="{{ log.imageurl }}" style="width:200px" title="foo"></td>
+          <td style="width:20em">{{log.imageText}}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+  </div>
+</div>
+{% endblock %}
+
+{% block vue %}
+<script>
+  const { createApp } = Vue
+
+  createApp({
+    delimiters: ["[[", "]]"],
+    data() {
+      return {
+        message: 'Hello Vue!'
+      }
+    },
+    methods: {
+      foo() {
+        console.log("foo")
+      }
+    }
+  }).mount('#app')
+</script>
+{% endblock %}
