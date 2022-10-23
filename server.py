@@ -26,19 +26,27 @@ def after_request(response):
 
 def get_school_map():
   school_map = {}
-  res = Log.select(fn.DISTINCT(Log.deptName),
+  res_n = Log.select(fn.DISTINCT(Log.deptName),
                    fn.COUNT(
       Log.id).alias("cnt")).where(Log.ok == 'n').group_by(
       Log.deptName).order_by(fn.COUNT(Log.id).desc())
-  for r in res:
-    school_map[hash(r.deptName)] = r
+  res_all = Log.select(fn.DISTINCT(Log.deptName),
+                   fn.COUNT(
+      Log.id).alias("cnt")).group_by(
+      Log.deptName).order_by(fn.COUNT(Log.id).desc())
+  cnt_map = {hash(r.deptName): r.cnt for r in res_all}
+  for r in res_n:
+    k = hash(r.deptName)
+    school_map[k] = r
+    r.cnt_all = cnt_map.get(k) or 0
+
   return school_map
 
 
 @app.route('/not_ok')
 def not_ok():
   logs = {
-      r.deptName: [f'http://lzwlkj.cn:5000/logs/{hash}', r.cnt]
+      r.deptName: [f'http://lzwlkj.cn:5000/logs/{hash}', r.cnt, r.cnt_all]
       for hash, r in get_school_map().items()
   }
   cnt_n = Log.select().where(Log.ok == 'n').count()

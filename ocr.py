@@ -26,6 +26,11 @@ def try_extract(text):
   m = re.match(r'.+[一-]?(\d+)\.\d\d[^\d].+(\d{28})', text)
   if m:
     return m.groups()
+  else:
+    m = re.match(r'.+(\d{28})', text)
+    if m:
+      return (0, m.groups()[0])
+
 
 
 def get_token():
@@ -147,6 +152,8 @@ def main():
             print("orc错误：", e, task)
             continue
           data = {**task, **ret}
+          if data['prices'] == 0:
+            data['prices'] = task.get('prices') or 0
           # print("data", data)
           try:
             resp = write_back(data, token)
@@ -155,6 +162,8 @@ def main():
               print("回写反馈失败:", data)
             try:
               with database.atomic():
+                data['prices_tmp'] = 0
+                data['usrPrices_tmp'] = 0
                 Log.create(**data)
               database.commit()
               already[data['orderId']] = 1

@@ -8,13 +8,14 @@
 {% endblock %}
 {% block content %}
 <div class="row">
-  <h1> {{cnt_n}}/{{cnt_y}} - {{percent}}</h1>
+  <h1> {{cnt_n}}/{{cnt_y+cnt_n}} - {{percent}}</h1>
   <table class="table table-bordered">
     <thead>
       <tr>
         <td>序号</td>
         <td>学校</td>
         <td>数量</td>
+        <td>总量</td>
         <td>链接</td>
       </tr>
     </thead>
@@ -24,6 +25,7 @@
           <td>{{loop.index0+1}}</td>
           <td>{{k}}</td>
           <td>{{v[1]}}</td>
+          <td>{{v[2]}}</td>
           <td><a href="{{v[0]}}">{{v[0]}}</a></td>
         </tr>
     {% endfor %}
